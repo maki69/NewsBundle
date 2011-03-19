@@ -4,4 +4,77 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <parameters>
+        <!-- POST -->
+        <parameter key="sonata.news.admin.post.class">Sonata\NewsBundle\Admin\PostAdmin</parameter>
+        <parameter key="sonata.news.admin.post.controller">SonataNewsBundle:PostAdmin</parameter>
+        <parameter key="sonata.news.admin.post.document">Application\Sonata\NewsBundle\Entity\Post</parameter>
+        <parameter key="sonata.news.post_manager.class">Sonata\NewsBundle\Document\PostManager</parameter>
+
+        <!-- COMMENT -->
+        <parameter key="sonata.news.admin.comment.class">Sonata\NewsBundle\Admin\CommentAdmin</parameter>
+        <parameter key="sonata.news.admin.comment.controller">SonataNewsBundle:CommentAdmin</parameter>
+        <parameter key="sonata.news.admin.comment.document">Application\Sonata\NewsBundle\Document\Comment</parameter>
+        <parameter key="sonata.news.comment_manager.class">Sonata\NewsBundle\Document\CommentManager</parameter>
+
+        <!-- TAG -->
+        <parameter key="sonata.news.admin.tag.class">Sonata\NewsBundle\Admin\TagAdmin</parameter>
+        <parameter key="sonata.news.admin.tag.controller">SonataNewsBundle:TagAdmin</parameter>
+        <parameter key="sonata.news.admin.tag.document">Application\Sonata\NewsBundle\Document\Tag</parameter>
+        <parameter key="sonata.news.tag_manager.class">Sonata\NewsBundle\Document\TagManager</parameter>
+    </parameters>
+
+    <services>
+        <service id="sonata.news.admin.comment" class="%sonata.news.admin.comment.class%">
+            <tag name="sonata.admin" manager_type="mongodb" group="sonata_blog" label="comment"/>
+            <argument>%sonata.news.admin.comment.document%</argument>
+            <argument>%sonata.news.admin.comment.controller%</argument>
+
+            <call method="setModelManager">
+                <argument type="service" id="sonata.news.manager" />
+            </call>
+
+        </service>
+
+        <service id="sonata.news.admin.post" class="%sonata.news.admin.post.class%">
+            <tag name="sonata.admin" manager_type="mongodb" group="sonata_blog" label="post"/>
+            <argument>%sonata.news.admin.post.document%</argument>
+            <argument>%sonata.news.admin.post.controller%</argument>
+
+            <call method="setUserManager">
+                <argument type="service" id="fos_user.user_manager" />
+            </call>
+
+            <call method="addChild">
+                <argument>sonata.news.admin.comment</argument>
+                <argument type="service" id="sonata.news.admin.comment" />
+            </call>
+
+            <call method="setModelManager">
+                <argument type="service" id="sonata.news.manager" />
+            </call>
+        </service>
+
+        <service id="sonata.news.admin.tag" class="%sonata.news.admin.tag.class%">
+            <tag name="sonata.admin" manager_type="mongodb" group="sonata_blog" label="tag"/>
+            <argument>%sonata.news.admin.tag.document%</argument>
+            <argument>%sonata.news.admin.tag.controller%</argument>
+
+            <call method="setModelManager">
+                <argument type="service" id="sonata.news.manager" />
+            </call>
+        </service>
+
+        <service id="sonata.news.post_manager" class="%sonata.news.post_manager.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
+        </service>
+
+        <service id="sonata.news.comment_manager" class="%sonata.news.comment_manager.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
+        </service>
+
+        <service id="sonata.news.tag_manager" class="%sonata.news.tag_manager.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
+        </service>
+    </services>
 </container>
