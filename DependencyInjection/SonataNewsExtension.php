@@ -33,8 +33,6 @@ class SonataNewsExtension extends Extension
         $config = $processor->process($configuration->getConfigTree($container->getParameter('kernel.debug')), $configs);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('admin.xml');
-        $loader->load('news.xml');
 
         if (!in_array(strtolower($config['db_driver']), array('orm', 'mongodb'))) {
             throw new \InvalidArgumentException(sprintf('Invalid db driver "%s".', $config['db_driver']));
