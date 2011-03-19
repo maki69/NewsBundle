@@ -9,16 +9,19 @@
         <parameter key="sonata.news.admin.post.class">Sonata\NewsBundle\Admin\PostAdmin</parameter>
         <parameter key="sonata.news.admin.post.controller">SonataNewsBundle:PostAdmin</parameter>
         <parameter key="sonata.news.admin.post.document">Application\Sonata\NewsBundle\Entity\Post</parameter>
+        <parameter key="sonata.news.post_manager.class">Sonata\NewsBundle\Document\PostManager</parameter>
 
         <!-- COMMENT -->
         <parameter key="sonata.news.admin.comment.class">Sonata\NewsBundle\Admin\CommentAdmin</parameter>
         <parameter key="sonata.news.admin.comment.controller">SonataNewsBundle:CommentAdmin</parameter>
         <parameter key="sonata.news.admin.comment.document">Application\Sonata\NewsBundle\Document\Comment</parameter>
+        <parameter key="sonata.news.comment_manager.class">Sonata\NewsBundle\Document\CommentManager</parameter>
 
         <!-- TAG -->
         <parameter key="sonata.news.admin.tag.class">Sonata\NewsBundle\Admin\TagAdmin</parameter>
         <parameter key="sonata.news.admin.tag.controller">SonataNewsBundle:TagAdmin</parameter>
         <parameter key="sonata.news.admin.tag.document">Application\Sonata\NewsBundle\Document\Tag</parameter>
+        <parameter key="sonata.news.tag_manager.class">Sonata\NewsBundle\Document\TagManager</parameter>
     </parameters>
 
     <services>
@@ -62,7 +65,16 @@
             </call>
         </service>
 
-        <service id="sonata.news.manager" alias="doctrine.odm.mongodb.default_configuration" />
-    </services>
+        <service id="sonata.news.post_manager" class="%sonata.news.post_manager.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
+        </service>
 
+        <service id="sonata.news.comment_manager" class="%sonata.news.comment_manager.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
+        </service>
+
+        <service id="sonata.news.tag_manager" class="%sonata.news.tag_manager.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
+        </service>
+    </services>
 </container>
