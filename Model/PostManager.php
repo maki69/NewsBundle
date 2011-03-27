@@ -2,10 +2,9 @@
 
 namespace Sonata\NewsBundle\Model;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
-use Sonata\NewsBundle\Model\PostInterface;
+use Sonata\NewsBundle\Model\PostManagerInterface;
 
-class PostManager implements PostManagerInterface
+abstract class PostManager implements PostManagerInterface
 {
 
 }

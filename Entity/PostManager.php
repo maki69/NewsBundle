@@ -11,16 +11,14 @@
 
 namespace Sonata\NewsBundle\Entity;
 
-use Doctrine\ORM\EntityRepository;
+use Sonata\NewsBundle\Model\PostManager as BasePostManager;
 
-class BasePostRepository extends EntityRepository
+class PostManager extends BasePostManager
 {
-
-    public function findLastPostQueryBuilder($limit) {
-
+    public function findLastPostQueryBuilder($limit)
+    {
         return $this->createQueryBuilder('p')
             ->where('p.enabled = true')
             ->orderby('p.createdAt', 'DESC');
-        
     }
 }
