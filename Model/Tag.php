@@ -9,11 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\NewsBundle\Entity;
+namespace Sonata\NewsBundle\Model;
 
-abstract class BaseTag
+use Sonata\NewsBundle\Model\PostInterface;
+use Sonata\NewsBundle\Model\TagInterface;
+
+abstract class Tag implements TagInterface
 {
-
     protected $name;
 
     protected $slug;
@@ -140,11 +142,9 @@ abstract class BaseTag
     }
 
     /**
-     * source : http://snipplr.com/view/22741/slugify-a-string-in-php/
+     * @inheritdoc
      *
-     * @static
-     * @param  $text
-     * @return mixed|string
+     * source : http://snipplr.com/view/22741/slugify-a-string-in-php/
      */
     static public function slugify($text)
     {
@@ -174,12 +174,11 @@ abstract class BaseTag
 
         return $text;
     }
+    
     /**
-     * Add posts
-     *
-     * @param Application\Sonata\NewsBundle\Entity\Post $posts
+     * @inheritdoc
      */
-    public function addPosts(\Application\Sonata\NewsBundle\Entity\Post $posts)
+    public function addPosts(PostInterface $posts)
     {
         $this->posts[] = $posts;
     }
