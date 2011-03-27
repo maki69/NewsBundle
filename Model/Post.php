@@ -9,11 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\NewsBundle\Entity;
+namespace Sonata\NewsBundle\Model;
 
-abstract class BasePost
+use Application\Sonata\MediaBundle\Model\MediaInterface;
+use Application\Sonata\NewsBundle\Model\CommentInterface;
+use Application\Sonata\NewsBundle\Model\PostInterface;
+use Application\Sonata\NewsBundle\Model\TagInterface;
+
+abstract class Post implements PostInterface
 {
-
     protected $title;
 
     protected $slug;
@@ -215,13 +219,16 @@ abstract class BasePost
     /**
      * Add comments
      *
-     * @param Application\Sonata\NewsBundle\Entity\Comment $comments
+     * @param Application\Sonata\NewsBundle\Model\CommentInterface $comments
      */
-    public function addComments(\Application\Sonata\NewsBundle\Entity\Comment $comments)
+    public function addComments(CommentInterface $comments)
     {
         $this->comments[] = $comments;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function setComments($comments)
     {
         $this->comments = $comments;
@@ -244,9 +251,9 @@ abstract class BasePost
     /**
      * Add tags
      *
-     * @param Application\Sonata\NewsBundle\Entity\Tag $tags
+     * @param \Application\Sonata\NewsBundle\Model\TagInterface $tags
      */
-    public function addTags(\Application\Sonata\NewsBundle\Entity\Tag $tags)
+    public function addTags(TagInterface $tags)
     {
         $this->tags[] = $tags;
     }
@@ -261,6 +268,9 @@ abstract class BasePost
         return $this->tags;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function setTags($tags)
     {
         $this->tags = $tags;
@@ -277,24 +287,32 @@ abstract class BasePost
         $this->setUpdatedAt(new \DateTime);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getYear()
     {
         return $this->getCreatedAt()->format('Y');
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getMonth()
     {
         return $this->getCreatedAt()->format('m');
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getDay()
     {
         return $this->getCreatedAt()->format('d');
     }
+
     /**
-     * Set comments_enabled
-     *
-     * @param boolean $commentsEnabled
+     * @inheritdoc
      */
     public function setCommentsEnabled($commentsEnabled)
     {
@@ -385,9 +403,9 @@ abstract class BasePost
     /**
      * Set image
      *
-     * @param Application\Sonata\MediaBundle\Entity\Media $image
+     * @param Application\Sonata\MediaBundle\Model\MediaInterface $image
      */
-    public function setImage(\Application\Sonata\MediaBundle\Entity\Media $image = null)
+    public function setImage(MediaInterface $image = null)
     {
         $this->image = $image;
     }
@@ -395,7 +413,7 @@ abstract class BasePost
     /**
      * Get image
      *
-     * @return Application\Sonata\MediaBundle\Entity\Media $image
+     * @return Application\Sonata\MediaBundle\Model\MediaInterface $image
      */
     public function getImage()
     {
