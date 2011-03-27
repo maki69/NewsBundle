@@ -15,11 +15,10 @@ class PostController extends Controller
 {
     public function archiveAction()
     {
-        $qb = $this->get('sonata.news.entity_manager')
-            ->getRepository('Application\Sonata\NewsBundle\Entity\Post')
+        $qb = $this->get('sonata.news.manager')
             ->findLastPostQueryBuilder(10); // todo : make this configurable
 
-        $pager = new Pager('Application\Sonata\NewsBundle\Entity\Post');
+        $pager = new Pager('sonata.news.post');
 
         $pager->setQueryBuilder($qb);
         $pager->setPage($this->get('request')->get('page', 1));
@@ -33,7 +32,7 @@ class PostController extends Controller
     public function viewAction($year, $month, $day, $slug)
     {
 
-        $post = $this->get('sonata.news.entity_manager')
+        $post = $this->get('sonata.news.manager')
             ->getRepository('Application\Sonata\NewsBundle\Entity\Post')
             ->findOneBy(array(
                 'slug' => $slug,
@@ -52,7 +51,7 @@ class PostController extends Controller
     public function commentsAction($post_id)
     {
 
-        $em = $this->get('sonata.news.entity_manager');
+        $em = $this->get('sonata.news.manager');
 
         $comments = $em->getRepository('Application\Sonata\NewsBundle\Entity\Comment')
             ->createQueryBuilder('c')
@@ -74,7 +73,7 @@ class PostController extends Controller
     public function addCommentFormAction($post_id, $form = false)
     {
         if (!$form) {
-            $em = $this->get('sonata.news.entity_manager');
+            $em = $this->get('sonata.news.manager');
 
             $post = $em->getRepository('Application\Sonata\NewsBundle\Entity\Post')
                 ->findOneBy(array(
@@ -115,7 +114,7 @@ class PostController extends Controller
     public function addCommentAction($id)
     {
 
-        $em = $this->get('sonata.news.entity_manager');
+        $em = $this->get('sonata.news.manager');
         
         $post = $em->getRepository('Application\Sonata\NewsBundle\Entity\Post')
             ->findOneBy(array(
