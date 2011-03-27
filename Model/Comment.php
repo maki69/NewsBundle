@@ -9,9 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\NewsBundle\Entity;
+namespace Sonata\NewsBundle\Model;
 
-abstract class BaseComment
+use Sonata\NewsBundle\Model\CommentInterface;
+use Sonata\NewsBundle\Model\PostInterface;
+
+abstract class Comment implements CommentInterface
 {
     const STATUS_MODERATE   = 2;
     const STATUS_VALID   = 1;
@@ -203,9 +206,9 @@ abstract class BaseComment
     /**
      * Set post
      *
-     * @param Application\Sonata\NewsBundle\Entity\Post $post
+     * @param Sonata\NewsBundle\Model\PostInterface $post
      */
-    public function setPost($post)
+    public function setPost(PostInterface $post)
     {
         $this->post = $post;
     }
@@ -213,7 +216,7 @@ abstract class BaseComment
     /**
      * Get post
      *
-     * @return Application\Sonata\NewsBundle\Entity\Post $post
+     * @return Sonata\NewsBundle\Model\PostInterface $post
      */
     public function getPost()
     {
