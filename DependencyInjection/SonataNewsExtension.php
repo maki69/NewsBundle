@@ -33,6 +33,7 @@ class SonataNewsExtension extends Extension
         $config = $processor->process($configuration->getConfigTree($container->getParameter('kernel.debug')), $configs);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+
         $loader->load('admin.xml');
         $loader->load('news.xml');
 

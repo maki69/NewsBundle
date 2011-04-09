@@ -4,25 +4,16 @@ namespace Sonata\NewsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Sonata\AdminBundle\Tool\DoctrinePager as Pager;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
     
-use Application\Sonata\NewsBundle\Entity\Comment;
-
 class PostController extends Controller
 {
     public function archiveAction()
     {
-        $qb = $this->get('sonata.news.manager')
-            ->findLastPostQueryBuilder(10); // todo : make this configurable
-
-        $pager = new Pager('sonata.news.post');
-
-        $pager->setQueryBuilder($qb);
-        $pager->setPage($this->get('request')->get('page', 1));
-        $pager->init();
+        $pager = $this->get('sonata.news.post.manager')
+            ->getLatestPosts($this->get('request')->get('page', 1), 10); // todo : make this configurable
 
         return $this->render('SonataNewsBundle:Post:archive.html.twig', array(
             'pager' => $pager,
